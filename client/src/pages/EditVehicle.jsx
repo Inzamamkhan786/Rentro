@@ -125,26 +125,26 @@ export default function EditVehicle() {
 
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
-  const inputClass = "w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 text-[0.95rem] transition-all outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 placeholder-gray-400";
+  const inputClass = "w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] transition-all outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 placeholder-gray-400";
   const selectClass = `${inputClass} appearance-none bg-no-repeat cursor-pointer`;
-  const labelClass = "text-[0.85rem] font-medium text-gray-500 tracking-[0.02em]";
+  const labelClass = "text-[0.85rem] font-medium text-gray-500 dark:text-gray-400 tracking-[0.02em]";
 
-  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-[3px] border-gray-200 border-t-black rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-[3px] border-gray-200 dark:border-gray-700 border-t-black rounded-full animate-spin" /></div>;
 
   return (
     <div className="w-full max-w-[720px] mx-auto px-5 min-h-[calc(100vh-72px)] py-8">
-      <button onClick={() => navigate(-1)} className="inline-flex items-center justify-center gap-2 px-4 py-2 mb-6 text-[0.85rem] font-semibold rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors animate-fade-in">
+      <button onClick={() => navigate(-1)} className="inline-flex items-center justify-center gap-2 px-4 py-2 mb-6 text-[0.85rem] font-semibold rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-800 transition-colors animate-fade-in">
         <ArrowLeft size={16} /> Back
       </button>
 
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm animate-fade-in px-8 py-9">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm animate-fade-in px-8 py-9">
         <div className="flex items-center gap-3.5 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center shrink-0">
-            <Edit2 size={22} className="text-gray-900" />
+          <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center shrink-0">
+            <Edit2 size={22} className="text-gray-900 dark:text-white" />
           </div>
           <div>
-            <h1 className="text-[1.4rem] font-[800] text-gray-900">Edit <span className="text-black font-black">Vehicle</span></h1>
-            <p className="text-[0.85rem] text-gray-500">Update the details of your listing</p>
+            <h1 className="text-[1.4rem] font-[800] text-gray-900 dark:text-white">Edit <span className="text-black font-black">Vehicle</span></h1>
+            <p className="text-[0.85rem] text-gray-500 dark:text-gray-400">Update the details of your listing</p>
           </div>
         </div>
 
@@ -193,8 +193,8 @@ export default function EditVehicle() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-5 mt-1">
-            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500 flex items-center gap-1.5"><MapPin size={16}/> Detailed Location *</h3>
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-5 mt-1">
+            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500 dark:text-gray-400 flex items-center gap-1.5"><MapPin size={16}/> Detailed Location *</h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div className="flex flex-col gap-1.5">
@@ -235,8 +235,8 @@ export default function EditVehicle() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-5 mt-1">
-            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500">Specifications (Optional)</h3>
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-5 mt-1">
+            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500 dark:text-gray-400">Specifications (Optional)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label className={labelClass}>Fuel</label>
@@ -263,22 +263,22 @@ export default function EditVehicle() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-5 mt-1">
-            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500 flex items-center gap-1.5"><ImageIcon size={16}/> Vehicle Images</h3>
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-5 mt-1">
+            <h3 className="text-[0.95rem] font-[700] mb-4 text-gray-500 dark:text-gray-400 flex items-center gap-1.5"><ImageIcon size={16}/> Vehicle Images</h3>
             <div className="flex flex-col gap-4">
               
               {/* Existing Images */}
               {existingImages.length > 0 && (
                 <div className="mb-2">
-                  <div className="text-[0.8rem] text-gray-500 mb-2">Current Images</div>
+                  <div className="text-[0.8rem] text-gray-500 dark:text-gray-400 mb-2">Current Images</div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                     {existingImages.map((url, index) => (
-                      <div key={`exist-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 group">
+                      <div key={`exist-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group">
                         <img src={`http://localhost:5000${url}`} alt={`Vehicle ${index}`} className="w-full h-full object-cover" />
                         <button 
                           type="button" 
                           onClick={() => removeExistingImage(index)}
-                          className="absolute top-1.5 right-1.5 bg-white text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50"
+                          className="absolute top-1.5 right-1.5 bg-white dark:bg-gray-900 text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50"
                         >
                           <X size={14} />
                         </button>
@@ -295,22 +295,22 @@ export default function EditVehicle() {
                   multiple 
                   accept="image/jpeg,image/png,image/webp" 
                   onChange={handleNewImageChange}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-[0.95rem] transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white file:border-gray-200 file:border file:text-gray-700 hover:file:bg-gray-100 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white dark:bg-gray-900 file:border-gray-200 dark:border-gray-700 file:border file:text-gray-700 dark:text-gray-300 hover:file:bg-gray-100 dark:bg-gray-800 cursor-pointer"
                 />
-                <div className="text-[0.75rem] text-gray-500 mt-1.5">Add more images (up to 10 total).</div>
+                <div className="text-[0.75rem] text-gray-500 dark:text-gray-400 mt-1.5">Add more images (up to 10 total).</div>
                 
                 {newImagePreviews.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-3">
                     {newImagePreviews.map((url, index) => (
-                      <div key={`new-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 group opacity-80">
+                      <div key={`new-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group opacity-80">
                         <img src={url} alt={`New ${index}`} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-black/10 flex items-center justify-center pointer-events-none">
-                          <span className="bg-black/50 text-white text-[0.65rem] px-2 py-0.5 rounded-full font-bold">NEW</span>
+                        <div className="absolute inset-0 bg-black dark:bg-white/10 flex items-center justify-center pointer-events-none">
+                          <span className="bg-black dark:bg-white/50 text-white text-[0.65rem] px-2 py-0.5 rounded-full font-bold">NEW</span>
                         </div>
                         <button 
                           type="button" 
                           onClick={() => removeNewImage(index)}
-                          className="absolute top-1.5 right-1.5 bg-white text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50 pointer-events-auto"
+                          className="absolute top-1.5 right-1.5 bg-white dark:bg-gray-900 text-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50 pointer-events-auto"
                         >
                           <X size={14} />
                         </button>
@@ -323,7 +323,7 @@ export default function EditVehicle() {
             </div>
           </div>
 
-          <button type="submit" disabled={saving} className="inline-flex items-center justify-center gap-2 w-full px-9 py-4 mt-4 text-[1.05rem] font-semibold rounded-lg text-white bg-black hover:bg-gray-800 shadow-sm transition-all hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 disabled:cursor-not-allowed">
+          <button type="submit" disabled={saving} className="inline-flex items-center justify-center gap-2 w-full px-9 py-4 mt-4 text-[1.05rem] font-semibold rounded-lg text-white bg-black dark:bg-white dark:text-black hover:bg-gray-800 shadow-sm transition-all hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 disabled:cursor-not-allowed">
             {saving ? <span className="w-5 h-5 border-[3px] border-gray-500 border-t-white rounded-full animate-spin" /> : <><Edit2 size={18} /> Save Changes</>}
           </button>
         </form>

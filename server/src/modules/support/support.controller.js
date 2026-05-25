@@ -3,10 +3,14 @@ const { SupportTicket, User } = require('../../models');
 exports.createTicket = async (req, res, next) => {
   try {
     const { subject, description } = req.body;
+    // Look up the sender's name and email to store on the ticket
+    const sender = await User.findByPk(req.user.id, { attributes: ['name', 'email'] });
     const ticket = await SupportTicket.create({
       userId: req.user.id,
       subject,
       description,
+      senderName: sender?.name || 'Unknown',
+      senderEmail: sender?.email || '',
     });
     res.status(201).json({ success: true, data: ticket });
   } catch (error) {

@@ -39,7 +39,7 @@ export default function AdminSupport() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-[3px] border-gray-200 border-t-black rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-[3px] border-gray-200 dark:border-gray-700 border-t-black rounded-full animate-spin" /></div>;
 
   return (
     <div className="w-full max-w-[1000px] mx-auto px-5 min-h-[calc(100vh-72px)] py-8">
@@ -47,30 +47,30 @@ export default function AdminSupport() {
         <h1 className="text-[1.8rem] font-[800] mb-1">
           <span className="text-black font-black">Support Tickets</span>
         </h1>
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-400">
           Review and respond to user help requests.
         </p>
       </div>
 
       <div className="flex flex-col gap-4">
         {tickets.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm text-center py-16 px-5 flex flex-col items-center animate-fade-in">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm text-center py-16 px-5 flex flex-col items-center animate-fade-in">
             <CheckCircle size={48} className="text-emerald-300 mb-3" />
-            <h3 className="text-[1.2rem] font-[700] mb-2 text-gray-900">All Caught Up!</h3>
-            <p className="text-gray-500">There are no pending support tickets.</p>
+            <h3 className="text-[1.2rem] font-[700] mb-2 text-gray-900 dark:text-white">All Caught Up!</h3>
+            <p className="text-gray-500 dark:text-gray-400">There are no pending support tickets.</p>
           </div>
         ) : (
           tickets.map(ticket => (
-            <div key={ticket.id} className={`bg-white border ${ticket.status === 'open' ? 'border-amber-200 shadow-md' : 'border-gray-200 shadow-sm'} rounded-xl overflow-hidden animate-fade-in`}>
-              <div className={`p-5 border-b ${ticket.status === 'open' ? 'border-amber-100 bg-amber-50/30' : 'border-gray-100 bg-gray-50/50'} flex justify-between items-start gap-4`}>
+            <div key={ticket.id} className={`bg-white dark:bg-gray-900 border ${ticket.status === 'open' ? 'border-amber-200 shadow-md' : 'border-gray-200 dark:border-gray-700 shadow-sm'} rounded-xl overflow-hidden animate-fade-in`}>
+              <div className={`p-5 border-b ${ticket.status === 'open' ? 'border-amber-100 bg-amber-50/30' : 'border-gray-100 bg-gray-50 dark:bg-gray-800/50'} flex justify-between items-start gap-4`}>
                 <div>
-                  <h3 className="font-[700] text-[1.1rem] text-gray-900 mb-1">{ticket.subject}</h3>
-                  <div className="text-[0.8rem] text-gray-500 flex items-center gap-2 flex-wrap">
+                  <h3 className="font-[700] text-[1.1rem] text-gray-900 dark:text-white mb-1">{ticket.subject}</h3>
+                  <div className="text-[0.8rem] text-gray-500 dark:text-gray-400 flex items-center gap-2 flex-wrap">
                     <span>Ticket #{ticket.id}</span>
                     <span>•</span>
-                    <span className="font-semibold">{ticket.user?.name} ({ticket.user?.email})</span>
+                    <span className="font-semibold">{ticket.user?.name || ticket.senderName || 'Unknown'} ({ticket.user?.email || ticket.senderEmail || 'N/A'})</span>
                     <span>•</span>
-                    <span className="capitalize">{ticket.user?.role}</span>
+                    <span className="capitalize">{ticket.user?.role || 'N/A'}</span>
                     <span>•</span>
                     <span>{new Date(ticket.createdAt).toLocaleString()}</span>
                   </div>
@@ -81,7 +81,7 @@ export default function AdminSupport() {
                 </span>
               </div>
               <div className="p-5">
-                <p className="text-gray-700 text-[0.95rem] whitespace-pre-wrap">{ticket.description}</p>
+                <p className="text-gray-700 dark:text-gray-300 text-[0.95rem] whitespace-pre-wrap">{ticket.description}</p>
                 
                 {ticket.adminReply ? (
                   <div className="mt-5 bg-blue-50 border border-blue-100 rounded-lg p-4">
@@ -91,25 +91,25 @@ export default function AdminSupport() {
                 ) : (
                   <div className="mt-5">
                     {replyingId === ticket.id ? (
-                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 animate-fade-in">
+                      <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 animate-fade-in">
                         <textarea 
                           rows="4" 
                           value={replyText} 
                           onChange={e => setReplyText(e.target.value)} 
-                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all resize-none mb-3" 
+                          className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all resize-none mb-3" 
                           placeholder="Type your response here..."
                         />
                         <div className="flex gap-2 justify-end">
                           <button 
                             onClick={() => { setReplyingId(null); setReplyText(''); }} 
-                            className="px-4 py-2 text-[0.85rem] font-semibold rounded-lg text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-all"
+                            className="px-4 py-2 text-[0.85rem] font-semibold rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-800 transition-all"
                           >
                             Cancel
                           </button>
                           <button 
                             onClick={() => handleReply(ticket.id)} 
                             disabled={submitting} 
-                            className="inline-flex items-center gap-2 px-4 py-2 text-[0.85rem] font-semibold rounded-lg text-white bg-black hover:bg-gray-800 transition-all disabled:opacity-70"
+                            className="inline-flex items-center gap-2 px-4 py-2 text-[0.85rem] font-semibold rounded-lg text-white bg-black dark:bg-white dark:text-black hover:bg-gray-800 transition-all disabled:opacity-70"
                           >
                             <Send size={14} /> {submitting ? 'Sending...' : 'Send & Resolve'}
                           </button>

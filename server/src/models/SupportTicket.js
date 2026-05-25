@@ -7,6 +7,15 @@ const SupportTicket = sequelize.define('SupportTicket', {
     primaryKey: true,
     autoIncrement: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'user_id',
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
   subject: {
     type: DataTypes.STRING(255),
     allowNull: false,
@@ -24,6 +33,14 @@ const SupportTicket = sequelize.define('SupportTicket', {
   status: {
     type: DataTypes.ENUM('open', 'resolved'),
     defaultValue: 'open',
+  },
+  senderName: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+  },
+  senderEmail: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
   },
   adminReply: {
     type: DataTypes.TEXT,
