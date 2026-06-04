@@ -10,7 +10,8 @@
     "test:coverage": "jest --forceExit --detectOpenHandles --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest --testPathPattern=tests/unit",
-    "test:integration": "jest --testPathPattern=tests/integration --forceExit --detectOpenHandles"
+    "test:integration": "jest --testPathPattern=tests/integration --forceExit --detectOpenHandles",
+    "db:sync": "node scripts/sync_db.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
