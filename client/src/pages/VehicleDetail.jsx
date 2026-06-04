@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { vehicleAPI, bookingAPI } from '../services/api';
+import { vehicleAPI, bookingAPI, SERVER_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { MapPin, Fuel, Users, Calendar, Shield, ArrowLeft, Star, CheckCircle, Image as ImageIcon } from 'lucide-react';
 
@@ -74,7 +74,7 @@ export default function VehicleDetail() {
           <div className="mb-6">
             <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl h-[360px] md:h-[460px] flex items-center justify-center relative overflow-hidden mb-3">
               {hasImages ? (
-                <img src={`http://localhost:5000${vehicle.images[activeImage]}`} alt={vehicle.title} className="w-full h-full object-cover transition-opacity duration-300" />
+                <img src={`${SERVER_URL}${vehicle.images[activeImage]}`} alt={vehicle.title} className="w-full h-full object-cover transition-opacity duration-300" />
               ) : (
                 <span className="text-[8rem]">{typeEmoji[vehicle.type] || '🚗'}</span>
               )}
@@ -89,7 +89,7 @@ export default function VehicleDetail() {
                     onClick={() => setActiveImage(idx)}
                     className={`relative w-20 h-20 rounded-lg overflow-hidden shrink-0 transition-all ${activeImage === idx ? 'ring-2 ring-black ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                   >
-                    <img src={`http://localhost:5000${img}`} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                    <img src={`${SERVER_URL}${img}`} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>

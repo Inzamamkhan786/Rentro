@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { adminAPI, documentAPI } from '../services/api';
+import { adminAPI, documentAPI, SERVER_URL } from '../services/api';
 import { FileCheck, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 
 const DOC_TYPES = {
@@ -103,7 +103,7 @@ export default function Verifications() {
                 {/* Actions */}
                 <div className="flex items-center gap-2 flex-wrap">
                   <a 
-                    href={`http://localhost:5000${doc.fileUrl}`} 
+                    href={`${SERVER_URL}${doc.fileUrl}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     className="inline-flex items-center justify-center gap-2 px-4 py-2 text-[0.85rem] font-semibold rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-800 hover:border-gray-500 shadow-sm transition-all"

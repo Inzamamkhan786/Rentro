@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { vehicleAPI } from '../services/api';
+import { vehicleAPI, SERVER_URL } from '../services/api';
 import { ArrowLeft, Car, Edit2, MapPin, Image as ImageIcon, X } from 'lucide-react';
 
 export default function EditVehicle() {
@@ -274,7 +274,7 @@ export default function EditVehicle() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                     {existingImages.map((url, index) => (
                       <div key={`exist-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 group">
-                        <img src={`http://localhost:5000${url}`} alt={`Vehicle ${index}`} className="w-full h-full object-cover" />
+                        <img src={`${SERVER_URL}${url}`} alt={`Vehicle ${index}`} className="w-full h-full object-cover" />
                         <button 
                           type="button" 
                           onClick={() => removeExistingImage(index)}

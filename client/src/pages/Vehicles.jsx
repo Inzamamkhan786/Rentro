@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { vehicleAPI } from '../services/api';
+import { vehicleAPI, SERVER_URL } from '../services/api';
 import { Search, MapPin, Fuel, ChevronLeft, ChevronRight, SlidersHorizontal, X, Car } from 'lucide-react';
 
 function VehicleCard({ vehicle }) {
@@ -9,7 +9,7 @@ function VehicleCard({ vehicle }) {
     <Link to={`/vehicles/${vehicle.id}`} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:border-gray-400 transition-all duration-300 flex flex-col h-full">
       <div className="h-[200px] bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-center relative overflow-hidden">
         {vehicle.images && vehicle.images.length > 0 ? (
-          <img src={`http://localhost:5000${vehicle.images[0]}`} alt={vehicle.title} className="w-full h-full object-cover" />
+          <img src={`${SERVER_URL}${vehicle.images[0]}`} alt={vehicle.title} className="w-full h-full object-cover" />
         ) : (
           <span className="text-[4rem]">{typeEmoji[vehicle.type] || '🚗'}</span>
         )}
