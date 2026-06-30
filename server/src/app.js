@@ -61,6 +61,30 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// ── One-time Admin Seed (protected by secret key) ────────────────────────────
+app.post('/api/seed-admin', async (req, res) => {
+  const { secret } = req.body;
+  if (!secret || secret !== process.env.ADMIN_SEED_SECRET) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  try {
+    const bcrypt = require('bcryptjs');
+    const { User } = require('./models');
+    const email = 'admin@rentora.com';
+    const password = 'Admin@123456';
+    const existing = await User.findOne({ where: { email } });
+    if (existing) {
+      await existing.update({ role: 'admin', verified: true });
+      return res.json({ message: `User ${email} promoted to admin` });
+    }
+    const hash = await bcrypt.hash(password, 12);
+    await User.create({ name: 'Admin', email, password: hash, role: 'admin', verified: true });
+    res.json({ message: `Admin created: ${email} / ${password}` });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
