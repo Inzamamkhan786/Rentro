@@ -14,12 +14,32 @@ const paymentRoutes = require('./modules/payments/payment.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
 const supportRoutes = require('./modules/support/support.routes');
 const chatRoutes = require('./modules/chat/chat.routes');
+const agentRoutes = require('./modules/agent/agent.routes');
 
 const app = express();
 
 // Security middleware
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors());
+// CORS — allow Vercel frontend + localhost dev
+const allowedOrigins = [
+  'https://rentro-tau.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked: ${origin}`));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
@@ -51,6 +71,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/support', supportRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/agent', agentRoutes);
 
 // Error handling
 app.use(notFoundHandler);
