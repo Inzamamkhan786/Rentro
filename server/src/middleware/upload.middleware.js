@@ -19,27 +19,25 @@ const MAX_FILE_SIZE       = 5 * 1024 * 1024; // 5MB
 const vehicleStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder:         'rentora/vehicles',
+    folder:          'rentora/vehicles',
     allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 1200, height: 800, crop: 'limit', quality: 'auto' }],
   },
 });
 
 const documentStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => ({
-    folder:         'rentora/documents',
+    folder:          'rentora/documents',
     allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf'],
-    resource_type:  file.mimetype === 'application/pdf' ? 'raw' : 'image',
+    resource_type:   file.mimetype === 'application/pdf' ? 'raw' : 'image',
   }),
 });
 
 const avatarStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder:         'rentora/avatars',
+    folder:          'rentora/avatars',
     allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 300, height: 300, crop: 'fill', gravity: 'face', quality: 'auto' }],
   },
 });
 
