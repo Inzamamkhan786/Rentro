@@ -1,78 +1,86 @@
 const multer = require('multer');
-const path = require('path');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const { v2: cloudinary } = require('cloudinary');
 const ApiError = require('../utils/ApiError');
 
-// Allowed file types
+// ─── Cloudinary Config ────────────────────────────────────────────────────────
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// ─── Allowed Types ────────────────────────────────────────────────────────────
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-const ALLOWED_DOC_TYPES = [...ALLOWED_IMAGE_TYPES, 'application/pdf'];
+const ALLOWED_DOC_TYPES   = [...ALLOWED_IMAGE_TYPES, 'application/pdf'];
+const MAX_FILE_SIZE       = 5 * 1024 * 1024; // 5MB
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-
-/**
- * Storage configuration for multer.
- * In production, use Cloudinary or S3 instead.
- */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../uploads'));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+// ─── Cloudinary Storage Configs ───────────────────────────────────────────────
+const vehicleStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder:         'rentora/vehicles',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [{ width: 1200, height: 800, crop: 'limit', quality: 'auto' }],
   },
 });
 
-/**
- * File filter for image uploads.
- */
+const documentStorage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => ({
+    folder:         'rentora/documents',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf'],
+    resource_type:  file.mimetype === 'application/pdf' ? 'raw' : 'image',
+  }),
+});
+
+const avatarStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder:         'rentora/avatars',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [{ width: 300, height: 300, crop: 'fill', gravity: 'face', quality: 'auto' }],
+  },
+});
+
+// ─── File Filters ─────────────────────────────────────────────────────────────
 const imageFilter = (req, file, cb) => {
   if (ALLOWED_IMAGE_TYPES.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(ApiError.badRequest(`Invalid file type: ${file.mimetype}. Allowed: ${ALLOWED_IMAGE_TYPES.join(', ')}`), false);
+    cb(ApiError.badRequest(`Invalid file type: ${file.mimetype}. Allowed: jpg, png, webp`), false);
   }
 };
 
-/**
- * File filter for document uploads (images + PDF).
- */
 const documentFilter = (req, file, cb) => {
   if (ALLOWED_DOC_TYPES.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(ApiError.badRequest(`Invalid file type: ${file.mimetype}. Allowed: ${ALLOWED_DOC_TYPES.join(', ')}`), false);
+    cb(ApiError.badRequest(`Invalid file type: ${file.mimetype}. Allowed: jpg, png, webp, pdf`), false);
   }
 };
 
-/**
- * Upload middleware for vehicle images (multiple).
- */
+// ─── Upload Middlewares ───────────────────────────────────────────────────────
 const uploadVehicleImages = multer({
-  storage,
+  storage: vehicleStorage,
   fileFilter: imageFilter,
   limits: { fileSize: MAX_FILE_SIZE, files: 10 },
 }).array('images', 10);
 
-/**
- * Upload middleware for document files (single).
- */
 const uploadDocument = multer({
-  storage,
+  storage: documentStorage,
   fileFilter: documentFilter,
   limits: { fileSize: MAX_FILE_SIZE, files: 1 },
 }).single('document');
 
-/**
- * Upload middleware for avatar (single).
- */
 const uploadAvatar = multer({
-  storage,
+  storage: avatarStorage,
   fileFilter: imageFilter,
   limits: { fileSize: MAX_FILE_SIZE, files: 1 },
 }).single('avatar');
 
 module.exports = {
+  cloudinary,
   uploadVehicleImages,
   uploadDocument,
   uploadAvatar,
