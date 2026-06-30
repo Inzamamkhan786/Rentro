@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { bookingAPI, vehicleAPI, paymentAPI, documentAPI, adminAPI, SERVER_URL } from '../services/api';
+import { bookingAPI, vehicleAPI, paymentAPI, documentAPI, adminAPI, getImageUrl } from '../services/api';
 import BookingChatModal from '../components/BookingChatModal';
 import { Car, Calendar, IndianRupee, FileCheck, Users, BarChart3, Plus, Clock, CheckCircle, XCircle, AlertCircle, TrendingUp, Shield, MessageCircle, HelpCircle } from 'lucide-react';
 
@@ -229,7 +229,7 @@ export default function Dashboard() {
                 <div key={v.id} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-5 flex items-center gap-4">
                   <div className="w-14 h-14 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-[1.8rem] shrink-0 overflow-hidden">
                     {v.images && v.images.length > 0 ? (
-                      <img src={`${SERVER_URL}${v.images[0]}`} alt={v.title} className="w-full h-full object-cover" />
+                      <img src={getImageUrl(v.images[0])} alt={v.title} className="w-full h-full object-cover" />
                     ) : (
                       v.type === 'car' ? '🚗' : v.type === 'bike' ? '🏍️' : '🛵'
                     )}

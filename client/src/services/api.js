@@ -3,6 +3,14 @@ import axios from 'axios';
 export const baseURL = import.meta.env.VITE_API_URL || '/api';
 export const SERVER_URL = baseURL.endsWith('/api') ? baseURL.slice(0, -4) : baseURL;
 
+// Use this for ALL image src attributes instead of `${SERVER_URL}${url}`
+// Handles both Cloudinary full URLs and legacy relative paths
+export const getImageUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url; // Cloudinary URL
+  return `${SERVER_URL}${url}`; // legacy local path
+};
+
 const api = axios.create({
   baseURL,
   headers: { 'Content-Type': 'application/json' },
@@ -98,6 +106,10 @@ export const supportAPI = {
 export const chatAPI = {
   getMessages: (bookingId) => api.get(`/chat/${bookingId}`),
   sendMessage: (bookingId, data) => api.post(`/chat/${bookingId}`, data),
+};
+
+export const agentAPI = {
+  chat: (data) => api.post('/agent/chat', data),
 };
 
 export default api;

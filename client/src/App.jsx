@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import AgentChatWidget from './components/AgentChatWidget';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -61,6 +62,7 @@ export default function App() {
             <main className="flex-1">
               <AppRoutes />
             </main>
+            <AgentChatWidget />
             <Footer />
           </div>
         </AuthProvider>

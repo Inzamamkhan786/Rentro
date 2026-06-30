@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { documentAPI, SERVER_URL } from '../services/api';
+import { documentAPI, getImageUrl } from '../services/api';
 import { FileCheck, FileText, Upload, AlertCircle, CheckCircle, ShieldAlert } from 'lucide-react';
 
 const DOC_TYPES = {
@@ -187,7 +187,7 @@ export default function Documents() {
                       {doc.status === 'verified' && <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[0.75rem] font-bold uppercase tracking-wider"><CheckCircle size={12}/> Verified</span>}
                       {doc.status === 'rejected' && <span className="inline-flex items-center gap-1 bg-red-50 text-red-600 px-3 py-1 rounded-full text-[0.75rem] font-bold uppercase tracking-wider">Rejected</span>}
                       
-                      <a href={`${SERVER_URL}${doc.fileUrl}`} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-3 py-1.5 text-[0.75rem] font-semibold rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-800 hover:border-gray-500 shadow-sm transition-all hover:-translate-y-[1px]">
+                      <a href={getImageUrl(doc.fileUrl)} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 px-3 py-1.5 text-[0.75rem] font-semibold rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-800 hover:border-gray-500 shadow-sm transition-all hover:-translate-y-[1px]">
                         View
                       </a>
                     </div>
