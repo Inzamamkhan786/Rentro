@@ -79,10 +79,10 @@ const verifyVehicle = asyncHandler(async (req, res) => {
  * POST /api/vehicles/images
  */
 const uploadImages = asyncHandler(async (req, res) => {
-  if (!req.files || req.files.length === 0) {
+  if (!req.cloudinaryFiles || req.cloudinaryFiles.length === 0) {
     throw ApiError.badRequest('No images provided');
   }
-  const urls = req.files.map(file => `/uploads/${file.filename}`);
+  const urls = req.cloudinaryFiles.map(file => file.secure_url);
   res.status(200).json(ApiResponse.ok({ urls }, 'Images uploaded successfully'));
 });
 

@@ -4,7 +4,7 @@ const vehicleController = require('./vehicle.controller');
 const { authenticate, optionalAuth } = require('../../middleware/auth.middleware');
 const { authorize } = require('../../middleware/role.middleware');
 const { validate } = require('../../middleware/validate.middleware');
-const { uploadVehicleImages } = require('../../middleware/upload.middleware');
+const { uploadVehicleImages, processVehicleImages } = require('../../middleware/upload.middleware');
 const { createVehicleSchema, updateVehicleSchema, checkAvailabilitySchema } = require('./vehicle.validation');
 
 // Public routes
@@ -13,7 +13,7 @@ router.get('/:id', optionalAuth, vehicleController.getVehicleById);
 router.get('/:id/availability', validate(checkAvailabilitySchema), vehicleController.checkAvailability);
 
 // Provider routes
-router.post('/images', authenticate, authorize('provider', 'admin'), uploadVehicleImages, vehicleController.uploadImages);
+router.post('/images', authenticate, authorize('provider', 'admin'), uploadVehicleImages, processVehicleImages, vehicleController.uploadImages);
 router.post('/', authenticate, authorize('provider', 'admin'), validate(createVehicleSchema), vehicleController.createVehicle);
 router.get('/my/listings', authenticate, authorize('provider', 'admin'), vehicleController.getMyVehicles);
 router.put('/:id', authenticate, authorize('provider', 'admin'), validate(updateVehicleSchema), vehicleController.updateVehicle);
