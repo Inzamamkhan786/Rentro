@@ -10,7 +10,12 @@ export default function VehicleDetail() {
   const { user, isAuthenticated } = useAuth();
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [booking, setBooking] = useState({ startDate: '', endDate: '' });
+  // Default: tomorrow → day after tomorrow
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const dayAfter  = new Date(Date.now() + 48 * 60 * 60 * 1000);
+  const toLocal   = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  const nowLocal  = toLocal(new Date());
+  const [booking, setBooking] = useState({ startDate: toLocal(tomorrow), endDate: toLocal(dayAfter) });
   const [bookingLoading, setBookingLoading] = useState(false);
   const [msg, setMsg] = useState({ type: '', text: '' });
   const [activeImage, setActiveImage] = useState(0);
@@ -203,11 +208,11 @@ export default function VehicleDetail() {
             <form onSubmit={handleBook} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[0.85rem] font-medium text-gray-500 dark:text-gray-400 tracking-[0.02em] flex items-center"><Calendar size={14} className="mr-1" /> Start Date & Time</label>
-                <input type="datetime-local" className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all" value={booking.startDate} onChange={(e) => setBooking({ ...booking, startDate: e.target.value })} required />
+                <input type="datetime-local" min={nowLocal} className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all" value={booking.startDate} onChange={(e) => setBooking({ ...booking, startDate: e.target.value })} required />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-[0.85rem] font-medium text-gray-500 dark:text-gray-400 tracking-[0.02em] flex items-center"><Calendar size={14} className="mr-1" /> End Date & Time</label>
-                <input type="datetime-local" className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all" value={booking.endDate} onChange={(e) => setBooking({ ...booking, endDate: e.target.value })} required />
+                <input type="datetime-local" min={booking.startDate || nowLocal} className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-[0.95rem] outline-none focus:border-black focus:ring-[3px] focus:ring-black/5 transition-all" value={booking.endDate} onChange={(e) => setBooking({ ...booking, endDate: e.target.value })} required />
               </div>
 
               {priceCalc && (
